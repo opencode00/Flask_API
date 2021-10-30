@@ -1,4 +1,4 @@
-from gsheets_creds import get_client
+from .gsheets_creds import get_client
 import json
 
 def process_column(col):
@@ -14,16 +14,17 @@ def process_column(col):
     data.append(col[16])
     return data
 
-
-client = get_client()
-file = client.open("Primitiva")
-sheet = file.get_worksheet(2)
-data = []
-data.append(process_column(sheet.col_values(2)))
-data.append(process_column(sheet.col_values(3)))
-data.append(process_column(sheet.col_values(4)))
-data.append(process_column(sheet.col_values(5)))
-data.append(process_column(sheet.col_values(6)))
-data.append(process_column(sheet.col_values(7)))
-with open('data\\primitiva_combinacion.json','w') as file:
-    json.dump(data, file)
+def get_numbers():
+    client = get_client()
+    file = client.open("Primitiva")
+    sheet = file.get_worksheet(2)
+    data = []
+    data.append(process_column(sheet.col_values(2)))
+    data.append(process_column(sheet.col_values(3)))
+    data.append(process_column(sheet.col_values(4)))
+    data.append(process_column(sheet.col_values(5)))
+    data.append(process_column(sheet.col_values(6)))
+    data.append(process_column(sheet.col_values(7)))
+    # with open('data\\primitiva_combinacion.json','w') as file:
+    # json.dump(data, file)
+    return json.dumps(data)

@@ -1,4 +1,4 @@
-from gsheets_creds import get_client
+from .gsheets_creds import get_client
 import json
 
 def process_column(col):
@@ -17,17 +17,18 @@ def process_column(col):
 def get_top_stars(row):
     return f'Top Stars: {row[1]}, {row[2]}'
     
-
-client = get_client()
-file = client.open("Euromillones")
-sheet = file.get_worksheet(2)
-data = []
-data.append(process_column(sheet.col_values(2)))
-data.append(process_column(sheet.col_values(3)))
-data.append(process_column(sheet.col_values(4)))
-data.append(process_column(sheet.col_values(5)))
-data.append(process_column(sheet.col_values(6)))
-data.append(process_column(sheet.col_values(7)))
-data.append(get_top_stars(sheet.row_values(18)))
-with open('data\\euromillones_combinacion.json','w') as file:
-    json.dump(data, file)
+def get_numbers():
+    client = get_client()
+    file = client.open("Euromillones")
+    sheet = file.get_worksheet(2)
+    data = []
+    data.append(process_column(sheet.col_values(2)))
+    data.append(process_column(sheet.col_values(3)))
+    data.append(process_column(sheet.col_values(4)))
+    data.append(process_column(sheet.col_values(5)))
+    data.append(process_column(sheet.col_values(6)))
+    data.append(process_column(sheet.col_values(7)))
+    data.append(get_top_stars(sheet.row_values(18)))
+    # with open('data\\euromillones_combinacion.json','w') as file:
+    #     json.dump(data, file)
+    return json.dumps(data)
