@@ -1,19 +1,23 @@
 from flask import Flask
-from flask_cors import CORS
-from PepaPig import primitiva_get_numbers as prnum
-from PepaPig import euromillones_get_numbers as eunum
+from PepaPig import pepapig_functions as ppfx
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.after_request
+def add_header(r):
+    r.headers['Access-Control-Allow-Methods'] = '*'
+    r.headers['Access-Control-Allow-Headers'] = '*'
+    r.headers['Access-Control-Allow-Origin'] = '*'
+    return r
 
 @app.route('/pepapig/primitiva')
 def primitiva():
-    data = prnum.get_numbers()
+    data = ppfx.primitiva_numbers()
     return data
 
 @app.route('/pepapig/euromillones')
 def euromillones():
-    data = eunum.get_numbers()
+    data = ppfx.euromillones_numbers()
     return data
 
 app.run(port=5001)
