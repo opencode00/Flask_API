@@ -12,12 +12,10 @@ def add_header(r):
 
 @app.route('/pepapig/primitiva')
 def primitiva():
-    data = ppfx.primitiva_numbers()
-    return data
+    return ppfx.primitiva_numbers()
 
 @app.route('/pepapig/euromillones')
 def euromillones():
-    data = ppfx.euromillones_numbers()
-    return data
+    return ppfx.euromillones_numbers()
 
 app.run(port=5001)

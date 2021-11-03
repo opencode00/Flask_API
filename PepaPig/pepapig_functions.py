@@ -28,8 +28,9 @@ def euromillones_numbers():
     data.append(euromillones_process_column(sheet.col_values(5)))
     data.append(euromillones_process_column(sheet.col_values(6)))
     data.append(euromillones_process_column(sheet.col_values(7)))
+    for i in range(21, sheet.row_count+1):
+        data.append(sheet.row_values(i))
     data.append(euromillones_stars(sheet.row_values(18)))
-    # with open('data\\euromillones_combinacion.json','w') as file:
     return json.dumps(data)
 
 def primitiva_process_column(col):
@@ -45,6 +46,7 @@ def primitiva_process_column(col):
     data.append(col[16])
     return data
 
+
 def primitiva_numbers():
     client = get_client()
     file = client.open("Primitiva")
@@ -56,6 +58,8 @@ def primitiva_numbers():
     data.append(primitiva_process_column(sheet.col_values(5)))
     data.append(primitiva_process_column(sheet.col_values(6)))
     data.append(primitiva_process_column(sheet.col_values(7)))
-    # with open('data\\primitiva_combinacion.json','w') as file:
+    for i in range(20, sheet.row_count+1):
+        data.append(sheet.row_values(i))
+    
     return json.dumps(data)
 
