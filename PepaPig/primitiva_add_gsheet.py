@@ -20,5 +20,5 @@ if (combinacion):
     combinacion.append(f'=AVERAGE(M{index}:Q{index})')
     combinacion.append(f'=CONCATENATE(C{index}:H{index})')
     combinacion.append(f'=if(COUNTIF($U$2:U;U{index})>1;COUNTIF($U$2:U;U{index});0)')
-    # sheet.append_row(combinacion, 'USER_ENTERED', 'INSERT_ROWS', 'A:J')
-    print(combinacion)
+    sheet.append_row(combinacion, 'USER_ENTERED', 'INSERT_ROWS', 'A:J')
+    # print(combinacion)
