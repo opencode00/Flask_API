@@ -1,5 +1,5 @@
 from flask import Flask
-from PepaPig import pepapig_functions as ppfx
+# from PepaPiºg import pepapig_functions as ppfx
 
 app = Flask(__name__)
 
@@ -12,10 +12,12 @@ def add_header(r):
 
 @app.route('/pepapig/primitiva')
 def primitiva():
-    return ppfx.primitiva_numbers()
+    return 'primitiva desde la api de python en el 5001'
+    # return ppfx.primitiva_numbers()
 
 @app.route('/pepapig/euromillones')
 def euromillones():
-    return ppfx.euromillones_numbers()
+    return 'euromillones desde la api de python en el 5001'
+    # return ppfx.euromillones_numbers()
 
 app.run(port=5001)
