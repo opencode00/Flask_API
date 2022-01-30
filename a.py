@@ -1,5 +1,5 @@
 from flask import Flask
-# from PepaPiºg import pepapig_functions as ppfx
+# from PepaPig import pepapig_functions as ppfx
 
 app = Flask(__name__)
 
