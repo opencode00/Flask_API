@@ -1,2 +1,3 @@
-Automatizar model, para que se puedan añadir campos a las tablas y los inserts y updates se actualicen solos
-    -usar parmetros virtuales **args (como update node)
+Automatizar model, para que se puedan añadir campos a las tablas y los inserts y updates se actualicen solos usando parmetros virtuales **args
+    update_node()
+    update_data()
