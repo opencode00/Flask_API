@@ -18,22 +18,26 @@ def show_full_data(node):
     print(model.get_full_data(node))
 
 def init_types():
-    model.add_type(name='Favoritos')
+    model.insert("types", name='Favs')
 
 def init_nodes():
-    model.add_node(name='Curso Python', type=1, active=1)
-    model.add_node(name='Curso Node', type=1, active=1)
+    model.insert("nodes", name='Curso Python', type=0, active=1)
+    model.insert("nodes", name='Curso Node', type=0, active=1)
 
 def init_data():
-    model.add_data(id_node=1, name='Arrays', slug="arrays", value='D:\\work\\python\\lists.pdf')
-    model.add_data(id_node=1, name='Objetos',slug="objetos", value='D:\\work\\python\\obj.pdf')
-    model.add_data(id_node=2, name='Arrays', slug="arrays", value='D:\\work\\nodeJS\\lists.pdf')
-    model.add_data(id_node=2, name='Objetos',slug="objetos", value='D:\\work\\nodeJS\\obj.pdf')
+    model.insert("data", id_node=1, name='Arrays', slug="arrays", value='D:\\work\\python\\lists.pdf')
+    model.insert("data", id_node=1, name='Objetos',slug="objetos", value='D:\\work\\python\\obj.pdf')
+    model.insert("data", id_node=2, name='Arrays', slug="arrays", value='D:\\work\\nodeJS\\lists.pdf')
+    model.insert("data", id_node=2, name='Objetos',slug="objetos", value='D:\\work\\nodeJS\\obj.pdf')
 
-def update_node():
-    model.update_node(1, name="Curso Python3", type=1, active=0)
-    model.update_node(2, name="Curso NodeJS", type=1, active=0)
+
+def update_nodes():
+    model.update("nodes", 1, name="Curso Python3")
+    model.update("nodes", 2, name="Curso NodeJS", type=1, active=0)
 
 def update_data():
-    model.update_data(1, "Lists")
-    model.update_data(4,"ObjetosJS","D:\work\\nodeJS\\nodeObj.pdf")
+    model.update("data", 1, name="Lists")
+    model.update("data", 4, name="ObjetosJS",value="D:\work\\nodeJS\\nodeObj.pdf")
+
+def update_types():
+    model.update("types", 1, name="Favorites")
