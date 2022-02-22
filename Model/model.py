@@ -30,27 +30,23 @@ for table,value in tables.items():
     # print(f"CREATE TABLE IF NOT EXISTS {table} ({query[:-1]});")
     c.execute(f"CREATE TABLE IF NOT EXISTS {table} ({query[:-1]});")
    
-def get_nodes():
-    c.execute(f"SELECT rowid, {','.join(tables['nodes'].keys())} FROM nodes")
-    return c.fetchall()
-
-def get_data(node):
-    c.execute(f"SELECT rowid, {','.join(tables['data'].keys())} FROM data WHERE id_node = :id_nodo", {'id_nodo':node})
-    return c.fetchall()
-
-def get_types():
-    c.execute(f"SELECT rowid, {','.join(tables['types'].keys())} FROM types")
-    return c.fetchall()
-
 def get_full_data(node):
     c.execute(f"SELECT A.ROWID,A.*,B.ROWID, B.* FROM nodes A INNER JOIN data B ON A.ROWID = B.id_node WHERE A.ROWID = :id_nodo", {'id_nodo':node})
     return c.fetchall()
 
+def select(table, select=None, where="1=1"):
+    if select is None:
+        select = f"rowid, {','.join(tables[table].keys())}"
+    
+    print(f"SELECT {select} FROM {table} WHERE {where}")
+    c.execute(f"SELECT {select} FROM {table} WHERE {where}")
+    return c.fetchall()
+
 def insert(table, **args):
     """
-    insert(table, **args)
-        table => nombre de la tabla
-        **args => campos de la tabla
+    insert(table, **args)\n
+        \ttable => nombre de la tabla\n
+        \t**args => campos de la tabla\n
     """
     fields = []
     values = []
@@ -59,14 +55,14 @@ def insert(table, **args):
         fields.append(':'+field)
     print(f"INSERT INTO {table} VALUES ({','.join(fields)})  -> {values}")    
     with conn:
-        c.execute(f"INSERT INTO {table} VALUES ({','.join(fields)})",values).lastrowid
+        return c.execute(f"INSERT INTO {table} VALUES ({','.join(fields)})",values).lastrowid
 
 def update(table, id, **args):
     """
-    update(table, id, **args):
-        table => nombre de la tabla a actualizar
-        id => id del nodo 
-        **args => campos de la tabla 
+    update(table, id, **args):\n
+        \ttable => nombre de la tabla a actualizar\n
+        \tid => id del nodo\n
+        **args => campos de la tabla\n
     """
     fields=[]
     values=[]
@@ -78,6 +74,16 @@ def update(table, id, **args):
     # print(f"{query} => {values}")
     with conn:
         c.execute(query, values)
+
+def delete(table, id, field = "ROWID"):
+    """
+    delete(table, id):\n
+        \ttable => nombre de la tabla a eliminar\n
+        \tid => id del nodo 
+    """
+    query = f'DELETE FROM {table} WHERE {field}={id}'
+    with conn:
+        c.execute(query)
 
 def slugify(cadena):
     cadena = cadena.lower()

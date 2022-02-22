@@ -5,14 +5,20 @@ def init():
     init_nodes()
     init_data()
 
-def show_nodes(node=False):
-    print(model.get_nodes())
+def show_nodes(node=None):
+    if node is None:
+        print(model.select("nodes"))
+    else:
+        print(model.select("nodes", None, f"rowid={node}"))
 
-def show_data(node=False):
-    print(model.get_data(node))
+def show_data(node=None):
+    print(model.select("data", None, f"node_id={node}"))
 
-def show_types():
-    print(model.get_types())
+def show_types(node=None):
+    if node is None:
+        print(model.select("types"))
+    else:
+        print(model.select("types", None, f"rowid={node}"))
 
 def show_full_data(node):
     print(model.get_full_data(node))
