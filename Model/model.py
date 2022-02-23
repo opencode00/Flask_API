@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('serebro.db')
+conn = sqlite3.connect('serebro.db')  ##Se va aa crear en el directorio de trabajo cwd, donde el primer script.
 c = conn.cursor()
 tables={
     'nodes': {

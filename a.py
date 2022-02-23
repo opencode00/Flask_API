@@ -1,7 +1,5 @@
 from flask import Flask, request
 # from PepaPig import pepapig_functions as ppfx
-from Model import model_api as mapi
-
 app = Flask(__name__)
 
 @app.after_request
@@ -11,23 +9,26 @@ def add_header(r):
     r.headers['Access-Control-Allow-Origin'] = '*'
     return r
 
-@app.route('/listman/add')
-def add():
-    #Querystring: request.args.get('par')
-    return mapi.add()
+@app.route('/listman/add', methods=["POST"])
+def add(): #(tipo, name, value, name_data=None):
+    #añade un valor nodo y dato
+    from Model import model
+    data = dict(request.form)
+    if 'name_data' not in data.keys():
+        data['name_data'] = data['name']
 
-#@app.route('/form-example', methods=['GET', 'POST'])
-# if request.method == 'POST':
-#     language = request.form.get('language')
+    type = model.select("types  ", 'rowid', f"name like '{data['type']}'")[0][0]
+    node_id = model.insert("nodes", name=data['name'], slug=model.slugify(data['name']), type=type, active=1)
+    model.insert('data', id_node=node_id, name=data['name_data'], slug=model.slugify(data['name']), value=data['value'])
 
-# @app.route('/pepapig/primitiva')
-# def primitiva():
-#     return 'primitiva desde la api de python en el 5001'
-#     # return ppfx.primitiva_numbers()
+    return ''
 
-# @app.route('/pepapig/euromillones')
-# def euromillones():
-#     return 'euromillones desde la api de python en el 5001'
-#     # return ppfx.euromillones_numbers()
+@app.route('/listman/remove/<int:id>')
+def remove(id):
+    #elimina un nodo y los datos asociados
+    from Model import model
+    model.delete("nodes", id)
+    model.delete("data", id, "id_node")
+    return ''
 
 app.run(port=5001)
