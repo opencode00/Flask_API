@@ -1,6 +1,7 @@
+from pickle import FALSE
 import sqlite3
 
-conn = sqlite3.connect('serebro.db')  ##Se va aa crear en el directorio de trabajo cwd, donde el primer script.
+conn = sqlite3.connect('serebro.db', check_same_thread=False)  ##Se va aa crear en el directorio de trabajo cwd, donde el primer script.
 c = conn.cursor()
 tables={
     'nodes': {
@@ -28,19 +29,28 @@ for table,value in tables.items():
     for p in pairs:
         query = query + f'{p[0]} {p[1]},'
     # print(f"CREATE TABLE IF NOT EXISTS {table} ({query[:-1]});")
-    c.execute(f"CREATE TABLE IF NOT EXISTS {table} ({query[:-1]});")
+    with conn:
+        c.execute(f"CREATE TABLE IF NOT EXISTS {table} ({query[:-1]});")
    
-def get_full_data(node):
-    c.execute(f"SELECT A.ROWID,A.*,B.ROWID, B.* FROM nodes A INNER JOIN data B ON A.ROWID = B.id_node WHERE A.ROWID = :id_nodo", {'id_nodo':node})
-    return c.fetchall()
+def slugify(cadena):
+    cadena = cadena.lower()
+    cadena = cadena.replace('á','a')
+    cadena = cadena.replace('é','e')
+    cadena = cadena.replace('í','i')
+    cadena = cadena.replace('ó','o')
+    cadena = cadena.replace('ú','u')
+    cadena = cadena.replace('ñ','n')
+    cadena = cadena.replace(' ','_')
+    return cadena
 
 def select(table, select=None, where="1=1"):
     if select is None:
         select = f"rowid, {','.join(tables[table].keys())}"
     
     print(f"SELECT {select} FROM {table} WHERE {where}")
-    c.execute(f"SELECT {select} FROM {table} WHERE {where}")
-    return c.fetchall()
+    with conn:
+        c.execute(f"SELECT {select} FROM {table} WHERE {where}")
+        return c.fetchall()
 
 def insert(table, **args):
     """
@@ -85,13 +95,17 @@ def delete(table, id, field = "ROWID"):
     with conn:
         c.execute(query)
 
-def slugify(cadena):
-    cadena = cadena.lower()
-    cadena = cadena.replace('á','a')
-    cadena = cadena.replace('é','e')
-    cadena = cadena.replace('í','i')
-    cadena = cadena.replace('ó','o')
-    cadena = cadena.replace('ú','u')
-    cadena = cadena.replace('ñ','n')
-    cadena = cadena.replace(' ','_')
-    return cadena
+def get_full_data(where="1=1"):
+    """
+    A = nodes ; B= data ; C = types
+    """
+    with conn:
+        query = f"""SELECT A.ROWID,A.name,C.name,A.active,B.rowid,B.name,B.value 
+                    FROM nodes A 
+                    INNER JOIN data B 
+                    ON A.ROWID = B.id_node 
+                    INNER JOIN types C
+                    ON A.type = C.rowid
+                    WHERE {where}"""
+        c.execute(query)
+        return c.fetchall()

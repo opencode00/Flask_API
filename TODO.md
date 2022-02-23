@@ -1,6 +1,5 @@
 # TODO 
-
-
+    - Proteger el api
 
 
 ## Proceso de inicializacion y comprobación del modelo
