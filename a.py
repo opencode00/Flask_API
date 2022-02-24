@@ -16,11 +16,21 @@ def protect(token):
         return True
     exit()
 
+@app.route('/givemepower', methods=["POST"])
+def givemepower():
+    if (request.form.get('user') == os.getenv('USER') and request.form.get('pass') == os.getenv('PASS')): 
+        key = os.getenv('KEY')+datetime.strftime(datetime.now(), "%H")
+        md5 = hashlib.md5()
+        md5.update(key.encode())
+        return md5.hexdigest()
+    return ''
+
 @app.route('/listman/add', methods=["POST"])
 def listman_add(): #(tipo, name, value, name_data=None):
     #añade un valor nodo y dato
     protect(request.args.get('key'))
     data = dict(request.form)
+    print(data)
     if 'name_data' not in data.keys():
         data['name_data'] = data['name']
 
