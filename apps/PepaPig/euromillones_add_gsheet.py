@@ -1,0 +1,20 @@
+from gsheets_creds import get_client
+from euromillones_last import euromillones_ayer
+
+client = get_client()
+sheet = client.open("Euromillones").sheet1  # Open the spreadhseet
+
+index = sheet.row_count +1
+combinacion = euromillones_ayer()
+if (combinacion):
+    combinacion.append(f'=SUM(C{index}:G{index})')
+    combinacion.append(f'=ABS(C{index}-D{index})')
+    combinacion.append(f'=ABS(D{index}-E{index})')
+    combinacion.append(f'=ABS(E{index}-F{index})')
+    combinacion.append(f'=ABS(F{index}-G{index})')
+    combinacion.append(f'=SUM(K{index}:N{index})')
+    combinacion.append(f'=AVERAGE(K{index}:N{index})')
+    combinacion.append(f'=CONCATENATE(C{index}:G{index})')
+    combinacion.append(f'=if(countif($Q$2:$Q{index};Q{index})>1;1;0)')
+    sheet.append_row(combinacion, 'USER_ENTERED', 'INSERT_ROWS', 'A:J')
+    # print(combinacion)
