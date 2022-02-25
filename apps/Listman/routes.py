@@ -8,22 +8,21 @@ listman_bp = Blueprint(
     'listman_bp', __name__,
 )
 
-def protect(token):
-    key = app.config['KEY']+datetime.strftime(datetime.now(), "%H")
+def gen_key():
+    key = app.config['SECRET_KEY']+datetime.strftime(datetime.now(), "%H")
     md5 = hashlib.md5()
     md5.update(key.encode())
-    print(md5.hexdigest())
-    if token == md5.hexdigest():
+    return md5.hexdigest()
+
+def protect(token):
+    if token == gen_key():
         return True
     exit()
 
 @listman_bp.route('/givemepower', methods=["POST"])
 def givemepower():
     if (request.form.get('user') == app.config['USER'] and request.form.get('pass') == app.config['PASS']): 
-        key = app.config['KEY']+datetime.strftime(datetime.now(), "%H")
-        md5 = hashlib.md5()
-        md5.update(key.encode())
-        return md5.hexdigest()
+        gen_key()
     return ''
 
 @listman_bp.route('/listman/add', methods=["POST"])
@@ -52,7 +51,7 @@ def listman_remove(id):
 @listman_bp.route('/listman/get/<string:type>')
 def listman_get(type):
     #devuelve 
-    # protect(request.args.get('key'))
+    protect(request.args.get('key'))
     tipo = model.select("types", 'rowid', f"name like '{type}'")[0][0]
     node_id = model.select("nodes", "ROWID", f"type={tipo}")[0][0]
     data = model.get_full_data(f"A.type=1")
