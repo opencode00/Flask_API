@@ -9,6 +9,9 @@ class Config:
     TESTING = True
     DEBUG = True
     FLASK_ENV = 'development'
+    #----Mias
     SECRET_KEY = environ.get('KEY')
     USER = environ.get('USER')
     PASS = environ.get('PASS')
+    INIT_DIR = environ.get('INIT_DIR')
+    DIR_SEP = environ.get('DIR_SEP')
