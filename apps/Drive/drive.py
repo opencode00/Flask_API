@@ -1,10 +1,13 @@
 import os
+import shutil
 import math
 import mimetypes
 
 def getFiles(path):
     dirs=[]
     files=[]
+    print(type(path))
+    print(path)
     if os.path.exists(path):
         with os.scandir(path) as entries:
             for entry in entries:
@@ -22,10 +25,12 @@ def getFiles(path):
 
     return [path]+[*dirs]+[*files]
 
+#no se usa en web
 def getMimeTypes(path):
     return mimetypes.guess_type(path)
 
-def viewFile(path):
+#no se usa en web
+def viewFileContent(path):
     if os.path.exists(path) and os.path.isfile(path):
         with open (path, 'rb') as f:
             return f.read()
@@ -36,11 +41,32 @@ def mkdir(path):
     except:
         pass
 
+#no se usa en web
+def rm (path):
+    try:
+        os.remove(path)
+    except:
+        pass
 
-# function rm(path){
-# function mv(oPath,dPath){
-# function cp(oPath,dPath){
-# function upload(oPath,file){
+def mv (src, dst):
+    try:
+        if (os.path.isdir(dst)):
+            shutil.move(src,dst)
+        else:
+            os.rename(src, dst)
+    except:
+        pass
+
+def cp (src, dst):
+    try:
+        if (os.path.isdir(src)):
+            shutil.copytree(src, dst)
+        else:
+            shutil.copy2(src, dst)
+    except:
+        pass
+
+
 def humanSize(size):
     sz = 'BKMGTP'
     lg = len(str(size))

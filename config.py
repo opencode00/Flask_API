@@ -6,9 +6,9 @@ basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, '.env'))
 
 class Config:
-    TESTING = True
-    DEBUG = True
-    FLASK_ENV = 'development'
+    # TESTING = True
+    # DEBUG = True
+    # FLASK_ENV = 'development'
     #----Mias
     SECRET_KEY = environ.get('KEY')
     USER = environ.get('USER')
