@@ -2,6 +2,8 @@ from flask import Blueprint, request, json, send_file, current_app as app
 from werkzeug.utils import secure_filename
 import apps.Drive.drive as drive
 
+import shutil
+
 # Blueprint Configuration
 drive_bp = Blueprint(
     'drive_bp', __name__,
@@ -47,11 +49,34 @@ def cp():
     return ''
 
 # path=<ruta relativa>&uploadFile=<fichero a subir>
-@drive_bp.route("/drive/upload", methods=['POST'])
+@drive_bp.route("/drive/upload", methods=['GET', 'POST'])
 def uploader():
-    path = request.form.get('path')
-    files = request.files.getlist('uploadFile')
-    for file in files:
-        filename = secure_filename(file.filename)
-        file.save(path, filename)
-    return ""
+    if request.method == 'POST':
+        path = request.form.get('path')
+        print('POST')
+        print(path)
+        files = request.files.getlist('uploadFile')
+        print(files)
+        for file in files:
+            print(file)
+            filename = secure_filename(file.filename)
+            file.save(path, filename)
+
+    return """
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        <input type=file name=uploadFile>
+        <input type=hidden name=path value="d:\\pedro\\test\\prueba6">
+        <input type="submit">
+    </form>
+</body>
+</html>
+    """

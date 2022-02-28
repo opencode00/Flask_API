@@ -1,5 +1,3 @@
-import hashlib
-from datetime import datetime
 from apps.Model import model
 from flask import Blueprint, request, jsonify, current_app as app
 
@@ -7,23 +5,6 @@ from flask import Blueprint, request, jsonify, current_app as app
 listman_bp = Blueprint(
     'listman_bp', __name__,
 )
-
-def gen_key():
-    key = app.config['SECRET_KEY']+datetime.strftime(datetime.now(), "%H")
-    md5 = hashlib.md5()
-    md5.update(key.encode())
-    return md5.hexdigest()
-
-def protect(token):
-    if token == gen_key():
-        return True
-    exit()
-
-@listman_bp.route('/givemepower', methods=["POST"])
-def givemepower():
-    if (request.form.get('user') == app.config['USER'] and request.form.get('pass') == app.config['PASS']): 
-        gen_key()
-    return ''
 
 @listman_bp.route('/listman/add', methods=["POST"])
 def listman_add(): #(tipo, name, value, name_data=None):
@@ -57,10 +38,3 @@ def listman_get(type):
     data = model.get_full_data(f"A.type=1")
     return jsonify(data)
     
-
-@listman_bp.after_request
-def add_header(r):
-    r.headers['Access-Control-Allow-Methods'] = '*'
-    r.headers['Access-Control-Allow-Headers'] = '*'
-    r.headers['Access-Control-Allow-Origin'] = '*'
-    return r

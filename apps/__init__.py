@@ -16,9 +16,11 @@ def init_app():
         # Logica y modulos de nuestra app
         from apps.Listman import routes as listman
         from apps.Drive import routes as drive
+        from apps.Login import routes as login
 
         # Register Blueprints
         app.register_blueprint(listman.listman_bp)
         app.register_blueprint(drive.drive_bp)
+        app.register_blueprint(login.login_bp)
 
         return app

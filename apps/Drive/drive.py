@@ -4,6 +4,7 @@ import math
 import mimetypes
 
 def getFiles(path):
+    tree =[]
     dirs=[]
     files=[]
     print(type(path))
@@ -23,7 +24,10 @@ def getFiles(path):
                     el['size'] = humanSize(entry.stat().st_size)
                     files.append(el)
 
-    return [path]+[*dirs]+[*files]
+    tree.append(path)
+    tree.append(dirs)
+    tree.append(files)
+    return tree
 
 #no se usa en web
 def getMimeTypes(path):

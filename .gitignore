@@ -1,5 +1,4 @@
-/PepaPig/__pycache__
-/PepaPig/config
-/PepaPig/data
+__pycache__
+/apps/__pycache__
 .env
 
