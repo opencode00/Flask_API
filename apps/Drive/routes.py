@@ -1,14 +1,19 @@
-from flask import Blueprint, request, json, send_file, current_app as app
+from flask import Blueprint, make_response, request, json, send_file, current_app as app
 from werkzeug.utils import secure_filename
 import apps.Drive.drive as drive
-
-import shutil
+import os
+import apps.common as utils
 
 # Blueprint Configuration
 drive_bp = Blueprint(
     'drive_bp', __name__,
 )
 
+@drive_bp.before_app_request
+def protect():
+    if request.args.get('key') != utils.gen_key():
+        make_response("Error", 403)
+    
 @drive_bp.route('/drive/list')
 def list():
     path = request.args.get('path') or None
@@ -17,12 +22,12 @@ def list():
     
     return json.jsonify(drive.getFiles(path))
 
-@drive_bp.route('/drive/viewfile')
+@drive_bp.route('/drive/viewFile')
 def viewfile():
     path = request.args.get('path')
-    if app.config['INIT_DIR'].replace(app.config['DIR_SEP'], app.config['DIR_SEP']*2) in path:
+    if os.path.exists(path):
         return send_file(path)
-    exit()
+    return ''
 
 #?path=<directorio actual>&dir=<nombre del directorio>
 @drive_bp.route('/drive/mkdir')
