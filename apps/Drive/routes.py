@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, request, json, send_file, current_app as app
+from flask import Blueprint, make_response, Response, request, json, send_file, current_app as app
 from werkzeug.utils import secure_filename
 import apps.Drive.drive as drive
 import os
@@ -26,7 +26,11 @@ def list():
 def viewfile():
     path = request.args.get('path')
     if os.path.exists(path):
-        return send_file(path)
+        mime = drive.getMimeTypes(path)[0]
+        if 'video' in mime or 'audio' in mime:
+            return utils.streamFile(path, mime)
+        else:
+            return send_file(path)
     return ''
 
 #?path=<directorio actual>&dir=<nombre del directorio>
@@ -34,7 +38,7 @@ def viewfile():
 def mkdir():
     path = request.args.get('path')
     dir = request.args.get('dir')
-    drive.mkdir(path+app.config['DIR_SEP']+dir)
+    drive.mkdir(path+'/'+dir)
     return ''
 
 #?opath=<path de origen>&dpath=<path de destino>
@@ -85,3 +89,7 @@ def uploader():
 </body>
 </html>
     """
+@drive_bp.after_request
+def after_request(response):
+    response.headers.add('Accept-Ranges', 'bytes')
+    return response

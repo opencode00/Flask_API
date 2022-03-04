@@ -7,8 +7,6 @@ def getFiles(path):
     tree =[]
     dirs=[]
     files=[]
-    print(type(path))
-    print(path)
     if os.path.exists(path):
         with os.scandir(path) as entries:
             for entry in entries:
@@ -28,6 +26,9 @@ def getFiles(path):
     tree.append(dirs)
     tree.append(files)
     return tree
+
+def getFileSize(path):
+    return os.stat(path).st_size
 
 #no se usa en web
 def getMimeTypes(path):

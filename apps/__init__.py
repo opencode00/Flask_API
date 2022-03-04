@@ -17,10 +17,12 @@ def init_app():
         from apps.Listman import routes as listman
         from apps.Drive import routes as drive
         from apps.Login import routes as login
+        from apps.Flow import routes as flow
 
         # Register Blueprints
         app.register_blueprint(listman.listman_bp)
         app.register_blueprint(drive.drive_bp)
         app.register_blueprint(login.login_bp)
+        app.register_blueprint(flow.flow_bp)
 
         return app
