@@ -9,5 +9,5 @@ def add_header(r):
     return r
 
 if __name__ == "__main__":
-    # app.run(host='0.0.0.0')
-    app.run(host='127.0.0.1', port=5001)
+    # Datos de produccion / para desarrollo setEnv.(bat|ps1) + flask run
+    app.run(host='0.0.0.0', port=13594)
