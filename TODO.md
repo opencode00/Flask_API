@@ -1,7 +1,7 @@
 # TODO 
 
 ## Drive
-- Mejorar el streaming más de un 1gb = error 500 por memory
+
 
 ## Flow 
 ### Reproductor WEB

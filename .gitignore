@@ -1,4 +1,11 @@
 __pycache__
 /apps/__pycache__
+/apps/Drive/__pycache__
+/apps/Flow/__pycache__
+/apps/Listman/__pycache__
+/apps/Listman/__pycache__
+/apps/Login/__pycache__
+/apps/Model/__pycache__
+/apps/Model/serebro.db
 .env
 
