@@ -18,7 +18,7 @@ from apps.Drive.routes import get_chunk, viewfile as view
 ## buscar canciones
 
 
-test = 'd:/pedro/selections'
+test = 'd:/pedro/test/selections'
 def getFolders(path):
     return [(dirs.path, dirs.name) for dirs in os.scandir(path) if dirs.is_dir()]
 
