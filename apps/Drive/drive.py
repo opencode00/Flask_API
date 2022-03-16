@@ -9,7 +9,7 @@ def getFiles(path):
     files=[]
     if os.path.exists(path):
         with os.scandir(path) as entries:
-            for entry in entries:
+            for entry in sorted(entries, key=lambda x: x.name):
                 el = {}
                 if entry.is_dir():
                     el['name'] = entry.name
