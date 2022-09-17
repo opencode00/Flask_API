@@ -8,3 +8,4 @@
 /apps/Model/__pycache__
 /apps/Model/serebro.db
 serebro.db
+.env
