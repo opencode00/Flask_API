@@ -28,3 +28,6 @@ tomli==1.2.1
 urllib3==1.26.7
 Werkzeug==2.0.2
 wrapt==1.13.2
+google-api-python-client 
+google-auth-httplib2 
+oauth2client

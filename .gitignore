@@ -6,6 +6,8 @@
 /apps/Listman/__pycache__
 /apps/Login/__pycache__
 /apps/Model/__pycache__
+/apps/Peppapig/__pycache__
 /apps/Model/serebro.db
 serebro.db
 .env
+/apps/Peppapig/config

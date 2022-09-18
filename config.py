@@ -12,3 +12,4 @@ class Config:
     PASS = environ.get('APP_PASS')
     INIT_DIR = environ.get('INIT_DIR')
     DIR_SEP = environ.get('DIR_SEP')
+    GOOGLE_JSON = '/work/www/APY/apps/Peppapig/config/pepapigcred.json'
