@@ -6,3 +6,5 @@ Además en apps se define:
 - un login (Login)
 - un explorador de archivos (Drive)
 - una app de streaming de medios (Flow)
+
+En Notion están documentados los pasos.
